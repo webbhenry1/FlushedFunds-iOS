@@ -18,8 +18,9 @@ struct endGame: View {
                     HStack {
                         Text(gameViewModel.players[index].name)
                         Spacer()
-                        TextField("Earnings", value: $gameViewModel.players[index].total, formatter: NumberFormatter())
+                        TextField("Earnings", text: $gameViewModel.players[index].total)
                             .keyboardType(.decimalPad)
+
                     }
                 }
             }
@@ -37,12 +38,15 @@ struct endGame: View {
 
     private func endGame() {
         for index in gameViewModel.players.indices {
-            gameViewModel.players[index].balance += gameViewModel.players[index].total
-            gameViewModel.players[index].total = 0.0
+            if let total = Double(gameViewModel.players[index].total) {
+                gameViewModel.players[index].balance += total
+                gameViewModel.players[index].total = ""
+            }
         }
         gameViewModel.savePlayers()
         self.presentationMode.wrappedValue.dismiss()
     }
+
 }
 
 struct endGame_Previews: PreviewProvider {

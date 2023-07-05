@@ -1,3 +1,5 @@
+
+
 import SwiftUI
 
 struct Home: View {
@@ -7,16 +9,24 @@ struct Home: View {
 
     var body: some View {
         VStack {
+            Image("White_Logo")
+                .resizable() // Make it resizable
+                .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                .scaleEffect(0.4) // Scale the image to half its original size
+                .offset(y: -150)
+            
             Button(action: {
                 showingGameStart = true
             }) {
                 Text("Start Game")
                     .font(.largeTitle)
-                    .padding()
+                    .padding(20)
                     .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .cornerRadius(15)
             }
+            .offset(y: -100)
+
             .sheet(isPresented: $showingGameStart) {
                 startGame()
             }
@@ -27,11 +37,13 @@ struct Home: View {
             }) {
                 Text("End Game")
                     .font(.largeTitle)
-                    .padding()
+                    .padding(24)
                     .background(Color.red)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .cornerRadius(15)
+
             }
+            .offset(y: -100)
             .sheet(isPresented: $showingGameEnd) {
                 endGame()
             }

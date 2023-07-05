@@ -33,8 +33,8 @@ struct ContentView: View {
 struct UserModel: Codable, Hashable {
     let name: String
     var balance: Double
-    var buyIn: Double = 0.0
-    var total: Double = 0.0
+    var buyIn: String = ""
+    var total: String = ""
 }
 
 

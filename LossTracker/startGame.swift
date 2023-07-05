@@ -18,7 +18,7 @@ struct startGame: View {
                     HStack {
                         Text(gameViewModel.players[index].name)
                         Spacer()
-                        TextField("Buy-in", value: $gameViewModel.players[index].buyIn, formatter: NumberFormatter())
+                        TextField("Buy-In", text: $gameViewModel.players[index].buyIn)
                             .keyboardType(.decimalPad)
                     }
                 }
@@ -32,17 +32,24 @@ struct startGame: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
+        }.onAppear {
+            for index in gameViewModel.players.indices {
+                gameViewModel.players[index].buyIn = ""
+            }
         }
     }
 
     private func startGame() {
         for index in gameViewModel.players.indices {
-            gameViewModel.players[index].balance -= gameViewModel.players[index].buyIn
-            gameViewModel.players[index].buyIn = 0.0
+            if let buyIn = Double(gameViewModel.players[index].buyIn) {
+                gameViewModel.players[index].balance -= buyIn
+                gameViewModel.players[index].buyIn = ""
+            }
         }
         gameViewModel.savePlayers()
         self.presentationMode.wrappedValue.dismiss()
     }
+
 }
 
 struct startGame_Previews: PreviewProvider {

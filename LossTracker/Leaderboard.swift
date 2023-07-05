@@ -24,7 +24,9 @@ struct Leaderboard: View {
                     showingAddPlayer = true
                 }) {
                     Image(systemName: "person.badge.plus")
-                        .imageScale(.large) // Increase the image size
+                        .scaleEffect(2)
+                        .offset(x: -10, y:5)
+                    
                 }
                 .sheet(isPresented: $showingAddPlayer) {
                     AddPlayer().environmentObject(gameViewModel)
@@ -66,3 +68,4 @@ struct Leaderboard_Previews: PreviewProvider {
         }
     }
 }
+

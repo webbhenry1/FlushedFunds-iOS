@@ -8,20 +8,29 @@ struct AddPlayer: View {
 
     var body: some View {
         NavigationView {
-            Form {
-                Section {
-                    TextField("Name", text: $name)
-                    TextField("Starting Balance", text: $startingBalance)
-                        .keyboardType(.decimalPad)
-                }
+            VStack {
+                Text("Add Player")
+                    .font(.title)
+                    .padding(.bottom, 50)
+                    .padding(.top, 30)
+                Form {
+                    Section {
+                        TextField("Name", text: $name)
+                            .font(.title2)  // Increase the font size of text field
+                        TextField("Starting Balance", text: $startingBalance)
+                            .keyboardType(.decimalPad)
+                            .font(.title2)  // Increase the font size of text field
+                    }
 
-                Section {
-                    Button("Add") {
-                        addPlayer()
+                    Section {
+                        Button(action: addPlayer) {
+                            Text("Add")
+                                .font(.title2)  // Increase the font size of the button text
+                        }
                     }
                 }
+                .padding(.horizontal)
             }
-            .navigationTitle("Add Player")
         }
     }
 
