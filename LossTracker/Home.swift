@@ -1,10 +1,9 @@
-
-
 import SwiftUI
 
 struct Home: View {
     @State private var showingGameStart = false
     @State private var showingGameEnd = false
+    @State private var showingFinishedView = false
     @EnvironmentObject var gameViewModel: GameViewModel
 
     var body: some View {
@@ -41,13 +40,18 @@ struct Home: View {
                     .background(Color.red)
                     .foregroundColor(.white)
                     .cornerRadius(15)
-
             }
             .offset(y: -100)
-            .sheet(isPresented: $showingGameEnd) {
+            .sheet(isPresented: $showingGameEnd, onDismiss: {
+                showingFinishedView = true
+            }) {
                 endGame()
             }
             .padding()
+
+            .sheet(isPresented: $showingFinishedView) {
+                FinishedView()
+            }
         }
     }
 }

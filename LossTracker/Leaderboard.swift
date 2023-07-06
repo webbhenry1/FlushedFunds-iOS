@@ -41,7 +41,7 @@ struct Leaderboard: View {
                 
             ScrollView {
                 VStack(alignment: .leading) {
-                    ForEach(gameViewModel.players, id: \.self) { player in
+                    ForEach(gameViewModel.sortedPlayers, id: \.self) { player in
                         HStack {
                             Text(player.name)
                                 .font(.title) // Increase the font size

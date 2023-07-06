@@ -22,6 +22,7 @@
 		BA6FFABD2A535A56003E4FCE /* startGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FFABC2A535A56003E4FCE /* startGame.swift */; };
 		BA6FFABF2A535D96003E4FCE /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FFABE2A535D96003E4FCE /* GameViewModel.swift */; };
 		BA6FFAC42A536537003E4FCE /* endGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FFAC32A536537003E4FCE /* endGame.swift */; };
+		BA6FFAC72A5655F2003E4FCE /* FinishedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FFAC62A5655F2003E4FCE /* FinishedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -74,6 +75,7 @@
 		BA6FFABC2A535A56003E4FCE /* startGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = startGame.swift; sourceTree = "<group>"; };
 		BA6FFABE2A535D96003E4FCE /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		BA6FFAC32A536537003E4FCE /* endGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = endGame.swift; sourceTree = "<group>"; };
+		BA6FFAC62A5655F2003E4FCE /* FinishedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,11 +133,12 @@
 				BA6FFABA2A53235B003E4FCE /* AddPlayer.swift */,
 				BA6FFABC2A535A56003E4FCE /* startGame.swift */,
 				BA6FFABE2A535D96003E4FCE /* GameViewModel.swift */,
+				BA6FFAC32A536537003E4FCE /* endGame.swift */,
+				BA6FFAC62A5655F2003E4FCE /* FinishedView.swift */,
 				BA6FFA892A5305E4003E4FCE /* Assets.xcassets */,
 				BA6FFA8E2A5305E4003E4FCE /* Persistence.swift */,
 				BA6FFA902A5305E4003E4FCE /* LossTracker.xcdatamodeld */,
 				BA6FFA8B2A5305E4003E4FCE /* Preview Content */,
-				BA6FFAC32A536537003E4FCE /* endGame.swift */,
 			);
 			path = LossTracker;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			files = (
 				BA6FFABF2A535D96003E4FCE /* GameViewModel.swift in Sources */,
 				BA6FFA8F2A5305E4003E4FCE /* Persistence.swift in Sources */,
+				BA6FFAC72A5655F2003E4FCE /* FinishedView.swift in Sources */,
 				BA6FFABB2A53235B003E4FCE /* AddPlayer.swift in Sources */,
 				BA6FFABD2A535A56003E4FCE /* startGame.swift in Sources */,
 				BA6FFAB92A530936003E4FCE /* Leaderboard.swift in Sources */,
