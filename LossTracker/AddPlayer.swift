@@ -37,7 +37,7 @@ struct AddPlayer: View {
     private func addPlayer() {
         guard let startingBalance = Double(startingBalance) else { return }
 
-        let newPlayer = UserModel(name: name, balance: startingBalance)
+        let newPlayer = GameViewModel.UserModel(name: name, balance: startingBalance)
         gameViewModel.players.append(newPlayer)
         gameViewModel.savePlayers()
 

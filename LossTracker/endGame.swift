@@ -25,7 +25,9 @@ struct endGame: View {
                 }
             }
 
-            Button(action: endGame) {
+            Button(action: {
+                gameViewModel.endGame()
+            }) {
                 Text("Finish")
                     .font(.largeTitle)
                     .padding()
@@ -33,20 +35,11 @@ struct endGame: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
+
         }
     }
 
-    private func endGame() {
-        for index in gameViewModel.players.indices {
-            if let total = Double(gameViewModel.players[index].total) {
-                gameViewModel.players[index].balance += total
-                gameViewModel.players[index].total = ""
-            }
-        }
-        gameViewModel.savePlayers()
-        self.presentationMode.wrappedValue.dismiss()
-    }
-
+    
 }
 
 struct endGame_Previews: PreviewProvider {

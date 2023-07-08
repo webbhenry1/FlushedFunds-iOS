@@ -26,12 +26,15 @@ class GameViewModel: ObservableObject {
     func startGame(with buyIns: [String: Double]) {
         for (playerName, buyIn) in buyIns {
             if let index = players.firstIndex(where: { $0.name == playerName }) {
+                saveGameHistory(player: players[index], buyIn: buyIn, total: 0)
                 players[index].balance -= buyIn
+                players[index].buyIn = String(buyIn)
             }
         }
         savePlayers()
     }
-    
+
+
     var totalPool: Double {
         return players.reduce(0) { total, player in
             if let buyIn = Double(player.buyIn) {
@@ -39,7 +42,37 @@ class GameViewModel: ObservableObject {
             } else {
                 return total
             }
+        } 
+    }
+    
+    func endGame() {
+        print("Starting endGame function. Initial state of players: \(players)")
+        
+        for player in players {
+            if let total = Double(player.total) {
+                if let index = players.firstIndex(where: { $0.name == player.name }) {
+                    saveGameHistory(player: players[index], buyIn: 0, total: total)
+                    players[index].balance += total
+                }
+            }
         }
+        savePlayers()
+        
+        print("Ending endGame function. Final state of players: \(players)")
+    }
+
+
+    func saveGameHistory(player: UserModel, buyIn: Double, total: Double) {
+        if let index = players.firstIndex(where: { $0.name == player.name }) {
+            if buyIn > 0 { // If it's the start of the game
+                // Append a new Game with the buyIn to the gameHistory
+                players[index].gameHistory.append(Game(buyIn: buyIn, total: 0))
+            } else if total > 0 { // If it's the end of the game
+                // Update the total of the current game in the gameHistory
+                players[index].gameHistory[players[index].gameHistory.count - 1].total = total
+            }
+        }
+        savePlayers()
     }
 
 
@@ -75,4 +108,18 @@ class GameViewModel: ObservableObject {
     var sortedPlayers: [UserModel] {
             return players.sorted { $0.balance > $1.balance }
         }
+    
+    struct Game: Codable, Hashable {
+        var buyIn: Double
+        var total: Double
+    }
+
+    struct UserModel: Codable, Hashable {
+        let name: String
+        var balance: Double
+        var buyIn: String = ""
+        var total: String = ""
+        var gameHistory: [Game] = []
+    }
+
 }
