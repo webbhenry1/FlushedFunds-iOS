@@ -1,10 +1,3 @@
-//
-//  startGame.swift
-//  LossTracker
-//
-//  Created by Henry Webb on 7/3/23.
-//
-
 import SwiftUI
 
 struct startGame: View {
@@ -32,10 +25,15 @@ struct startGame: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
-        }.onAppear {
+        }
+        .onAppear {
             for index in gameViewModel.players.indices {
                 gameViewModel.players[index].buyIn = ""
             }
+        }
+        .onTapGesture {
+            // This will make the keyboard disappear when tapping anywhere on the screen that isn't the TextField
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
 
