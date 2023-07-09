@@ -1,23 +1,52 @@
-//
-//  FinishedView.swift
-//  LossTracker
-//
-//  Created by Henry Webb on 7/5/23.
-//
-
 import SwiftUI
 
 struct FinishedView: View {
     @EnvironmentObject var gameViewModel: GameViewModel
 
     var body: some View {
-        List {
-            Text("Total Pool: $\(gameViewModel.totalPool)")
-            Text("Biggest Winner: \(gameViewModel.biggestWinner?.name ?? "N/A")")
-            Text("Biggest Loser: \(gameViewModel.biggestLoser?.name ?? "N/A")")
-            Text("Biggest % Gain: \(gameViewModel.biggestPercentageGain?.name ?? "N/A")")
-            Text("Biggest % Loss: \(gameViewModel.biggestPercentageLoss?.name ?? "N/A")")
+        ZStack {
+            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0) // Set the background color
+                .ignoresSafeArea(.all)
+
+            VStack {
+                Text(summaryText)
+                    .font(.title)
+                    .foregroundColor(.white)
+                
+                CustomListCell(title: "Total Pool", value: "$\(gameViewModel.totalPool)")
+                CustomListCell(title: "Biggest $ Gain", value: gameViewModel.biggestWinner?.name ?? "N/A")
+                CustomListCell(title: "Biggest $ Loss", value: gameViewModel.biggestLoser?.name ?? "N/A")
+                CustomListCell(title: "Biggest % Gain", value: gameViewModel.biggestPercentageGain?.name ?? "N/A")
+                CustomListCell(title: "Biggest % Loss", value: gameViewModel.biggestPercentageLoss?.name ?? "N/A")
+                
+                Spacer()
+            }
+            .padding()
         }
+    }
+
+    var summaryText: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        return (hour >= 12 ? "Tonight's" : "Today's") + " Summary"
+    }
+}
+
+struct CustomListCell: View {
+    let title: String
+    let value: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(.white)
+            Spacer()
+            Text(value)
+                .foregroundColor(.white)
+        }
+        .padding()
+        .background(Color.white.opacity(0.1))
+        .cornerRadius(10)
     }
 }
 
@@ -27,5 +56,3 @@ struct FinishedView_Previews: PreviewProvider {
             .environmentObject(GameViewModel())
     }
 }
-
-

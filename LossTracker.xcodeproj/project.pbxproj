@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA127FE02A5A5A6A001D3A6E /* PlayerSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */; };
 		BA6FFA862A5305E3003E4FCE /* LossTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FFA852A5305E3003E4FCE /* LossTrackerApp.swift */; };
 		BA6FFA882A5305E3003E4FCE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FFA872A5305E3003E4FCE /* ContentView.swift */; };
 		BA6FFA8A2A5305E4003E4FCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6FFA892A5305E4003E4FCE /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSelectView.swift; sourceTree = "<group>"; };
 		BA6FFA822A5305E3003E4FCE /* LossTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LossTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA6FFA852A5305E3003E4FCE /* LossTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LossTrackerApp.swift; sourceTree = "<group>"; };
 		BA6FFA872A5305E3003E4FCE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				BA6FFA8E2A5305E4003E4FCE /* Persistence.swift */,
 				BA6FFA902A5305E4003E4FCE /* LossTracker.xcdatamodeld */,
 				BA6FFA8B2A5305E4003E4FCE /* Preview Content */,
+				BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */,
 			);
 			path = LossTracker;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA6FFABF2A535D96003E4FCE /* GameViewModel.swift in Sources */,
+				BA127FE02A5A5A6A001D3A6E /* PlayerSelectView.swift in Sources */,
 				BA6FFA8F2A5305E4003E4FCE /* Persistence.swift in Sources */,
 				BA6FFAC72A5655F2003E4FCE /* FinishedView.swift in Sources */,
 				BA6FFABB2A53235B003E4FCE /* AddPlayer.swift in Sources */,

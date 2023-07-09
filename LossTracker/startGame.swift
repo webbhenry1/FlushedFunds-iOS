@@ -5,26 +5,43 @@ struct startGame: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack {
-            List {
-                ForEach(gameViewModel.players.indices, id: \.self) { index in
+        ZStack {
+            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0) // Set the background color
+                .ignoresSafeArea(.all)
+            
+            VStack {
+                ForEach(gameViewModel.players.indices.filter { gameViewModel.players[$0].isSelected }, id: \.self) { index in
                     HStack {
                         Text(gameViewModel.players[index].name)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(width: 100, alignment: .leading)
+                        
                         Spacer()
+                        
                         TextField("Buy-In", text: $gameViewModel.players[index].buyIn)
                             .keyboardType(.decimalPad)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.white.opacity(0.1))
+                            .cornerRadius(10)
                     }
+                    .padding(.horizontal)
                 }
-            }
 
-            Button(action: startGame) {
-                Text("Go")
-                    .font(.largeTitle)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                Button(action: startGame) {
+                    Text("Go")
+                        .font(.largeTitle)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding()
+
+                Spacer() // pushes the content upwards
             }
+            .padding(.top, 50) // add some space at the top
         }
         .onAppear {
             for index in gameViewModel.players.indices {
@@ -32,7 +49,6 @@ struct startGame: View {
             }
         }
         .onTapGesture {
-            // This will make the keyboard disappear when tapping anywhere on the screen that isn't the TextField
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
@@ -41,14 +57,13 @@ struct startGame: View {
         for index in gameViewModel.players.indices {
             if let buyIn = Double(gameViewModel.players[index].buyIn) {
                 gameViewModel.players[index].balance -= buyIn
-                gameViewModel.players[index].buyIn = ""
             }
         }
         gameViewModel.savePlayers()
         self.presentationMode.wrappedValue.dismiss()
     }
-
 }
+
 
 struct startGame_Previews: PreviewProvider {
     static var previews: some View {

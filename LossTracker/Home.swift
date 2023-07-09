@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct Home: View {
+    @State private var showingPlayerSelection = false
     @State private var showingGameStart = false
     @State private var showingGameEnd = false
     @State private var showingFinishedView = false
@@ -15,9 +16,9 @@ struct Home: View {
                 .offset(y: -150)
             
             Button(action: {
-                showingGameStart = true
+                showingPlayerSelection = true
             }) {
-                Text("Start Game")
+                Text("New Game")
                     .font(.largeTitle)
                     .padding(20)
                     .background(Color.blue)
@@ -25,6 +26,11 @@ struct Home: View {
                     .cornerRadius(15)
             }
             .offset(y: -100)
+            .sheet(isPresented: $showingPlayerSelection, onDismiss: {
+            }) {
+                PlayerSelectView(showingGameStart: $showingGameStart)
+            }
+            .padding()
 
             .sheet(isPresented: $showingGameStart) {
                 startGame()

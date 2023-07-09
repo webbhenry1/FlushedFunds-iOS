@@ -24,6 +24,7 @@ class GameViewModel: ObservableObject {
     }
     
     func startGame(with buyIns: [String: Double]) {
+        print("buyIns: \(buyIns)")  
         for (playerName, buyIn) in buyIns {
             if let index = players.firstIndex(where: { $0.name == playerName }) {
                 saveGameHistory(player: players[index], buyIn: buyIn, total: 0)
@@ -86,9 +87,10 @@ class GameViewModel: ObservableObject {
 
     var biggestLoser: UserModel? {
         return players.min { a, b in
-            (Double(a.total) ?? 0.0) - (Double(a.buyIn) ?? 0.0) > (Double(b.total) ?? 0.0) - (Double(b.buyIn) ?? 0.0)
+            (Double(a.total) ?? 0.0) - (Double(a.buyIn) ?? 0.0) < (Double(b.total) ?? 0.0) - (Double(b.buyIn) ?? 0.0)
         }
     }
+
 
 
     var biggestPercentageGain: UserModel? {
@@ -99,9 +101,10 @@ class GameViewModel: ObservableObject {
 
     var biggestPercentageLoss: UserModel? {
         return players.min { a, b in
-            percentageGain(player: a) > percentageGain(player: b)
+            percentageGain(player: a) < percentageGain(player: b)
         }
     }
+
 
 
     private func percentageGain(player: UserModel) -> Double {
@@ -124,6 +127,8 @@ class GameViewModel: ObservableObject {
         var buyIn: String = ""
         var total: String = ""
         var gameHistory: [Game] = []
+        var isSelected: Bool = false // Add this line
     }
+
 
 }
