@@ -18,7 +18,7 @@ struct Leaderboard: View {
                 Text("Leaderboard")
                     .font(.largeTitle)
                     .foregroundColor(.white)
-                    .offset(x: 18)
+                    .offset(x: 17)
                 Spacer()
                 Button(action: {
                     showingAddPlayer = true
@@ -26,6 +26,7 @@ struct Leaderboard: View {
                     Image(systemName: "person.badge.plus")
                         .scaleEffect(2)
                         .offset(x: -10, y:5)
+                    
                     
                 }
                 .sheet(isPresented: $showingAddPlayer) {
@@ -44,7 +45,7 @@ struct Leaderboard: View {
                     ForEach(gameViewModel.sortedPlayers, id: \.self) { player in
                         HStack {
                             Text(player.name)
-                                .font(.title) // Increase the font size
+                                .font(.title)
                                 .foregroundColor(.white)
                             Spacer()
                             Text("$\(player.balance, specifier: "%.2f")")
@@ -52,7 +53,7 @@ struct Leaderboard: View {
                                 .foregroundColor(.white)
                         }
                         .padding(.horizontal)
-                        .padding(.vertical, 10) // Increase the vertical padding to spread out the items
+                        .padding(.vertical, 10) 
                         Divider()
                     }
                 }
