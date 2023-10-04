@@ -11,12 +11,19 @@ import SwiftUI
 struct LossTrackerApp: App {
     let persistenceController = PersistenceController.shared
     let gameViewModel = GameViewModel()
+    
+    
+
+    @EnvironmentObject var time_manage: GameViewModel.TimerClass
+
+
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(gameViewModel)
+                .environmentObject(GameViewModel.TimerClass())
 
         }
     }

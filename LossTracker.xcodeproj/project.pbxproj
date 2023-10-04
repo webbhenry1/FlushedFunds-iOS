@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		BA127FE02A5A5A6A001D3A6E /* PlayerSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */; };
+		BA127FE22A5CE4E1001D3A6E /* gameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA127FE12A5CE4E1001D3A6E /* gameView.swift */; };
+		BA127FE42A5CE61C001D3A6E /* shameVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA127FE32A5CE61C001D3A6E /* shameVIew.swift */; };
+		BA2C51852ACCEE3500D4F45E /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2C51842ACCEE3500D4F45E /* PlayerView.swift */; };
 		BA6FFA862A5305E3003E4FCE /* LossTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FFA852A5305E3003E4FCE /* LossTrackerApp.swift */; };
 		BA6FFA882A5305E3003E4FCE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FFA872A5305E3003E4FCE /* ContentView.swift */; };
 		BA6FFA8A2A5305E4003E4FCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6FFA892A5305E4003E4FCE /* Assets.xcassets */; };
@@ -59,6 +62,9 @@
 
 /* Begin PBXFileReference section */
 		BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSelectView.swift; sourceTree = "<group>"; };
+		BA127FE12A5CE4E1001D3A6E /* gameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameView.swift; sourceTree = "<group>"; };
+		BA127FE32A5CE61C001D3A6E /* shameVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shameVIew.swift; sourceTree = "<group>"; };
+		BA2C51842ACCEE3500D4F45E /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		BA6FFA822A5305E3003E4FCE /* LossTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LossTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA6FFA852A5305E3003E4FCE /* LossTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LossTrackerApp.swift; sourceTree = "<group>"; };
 		BA6FFA872A5305E3003E4FCE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -136,12 +142,15 @@
 				BA6FFABC2A535A56003E4FCE /* startGame.swift */,
 				BA6FFABE2A535D96003E4FCE /* GameViewModel.swift */,
 				BA6FFAC32A536537003E4FCE /* endGame.swift */,
+				BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */,
 				BA6FFAC62A5655F2003E4FCE /* FinishedView.swift */,
+				BA127FE12A5CE4E1001D3A6E /* gameView.swift */,
+				BA127FE32A5CE61C001D3A6E /* shameVIew.swift */,
+				BA2C51842ACCEE3500D4F45E /* PlayerView.swift */,
 				BA6FFA892A5305E4003E4FCE /* Assets.xcassets */,
 				BA6FFA8E2A5305E4003E4FCE /* Persistence.swift */,
 				BA6FFA902A5305E4003E4FCE /* LossTracker.xcdatamodeld */,
 				BA6FFA8B2A5305E4003E4FCE /* Preview Content */,
-				BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */,
 			);
 			path = LossTracker;
 			sourceTree = "<group>";
@@ -305,15 +314,18 @@
 				BA6FFABF2A535D96003E4FCE /* GameViewModel.swift in Sources */,
 				BA127FE02A5A5A6A001D3A6E /* PlayerSelectView.swift in Sources */,
 				BA6FFA8F2A5305E4003E4FCE /* Persistence.swift in Sources */,
+				BA2C51852ACCEE3500D4F45E /* PlayerView.swift in Sources */,
 				BA6FFAC72A5655F2003E4FCE /* FinishedView.swift in Sources */,
 				BA6FFABB2A53235B003E4FCE /* AddPlayer.swift in Sources */,
 				BA6FFABD2A535A56003E4FCE /* startGame.swift in Sources */,
 				BA6FFAB92A530936003E4FCE /* Leaderboard.swift in Sources */,
 				BA6FFAC42A536537003E4FCE /* endGame.swift in Sources */,
 				BA6FFA922A5305E4003E4FCE /* LossTracker.xcdatamodeld in Sources */,
+				BA127FE42A5CE61C001D3A6E /* shameVIew.swift in Sources */,
 				BA6FFA882A5305E3003E4FCE /* ContentView.swift in Sources */,
 				BA6FFA862A5305E3003E4FCE /* LossTrackerApp.swift in Sources */,
 				BA6FFAB72A5308C7003E4FCE /* Home.swift in Sources */,
+				BA127FE22A5CE4E1001D3A6E /* gameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,11 +492,13 @@
 				DEVELOPMENT_TEAM = EE5CKE9HE8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Flushed Funds";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -513,11 +527,13 @@
 				DEVELOPMENT_TEAM = EE5CKE9HE8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Flushed Funds";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -16,16 +16,16 @@ struct AddPlayer: View {
                 Form {
                     Section {
                         TextField("Name", text: $name)
-                            .font(.title2)  // Increase the font size of text field
+                            .font(.title2)
                         TextField("Starting Balance", text: $startingBalance)
-                            .keyboardType(.decimalPad)
-                            .font(.title2)  // Increase the font size of text field
+                            .keyboardType(.numbersAndPunctuation)
+                            .font(.title2)
                     }
 
                     Section {
                         Button(action: addPlayer) {
                             Text("Add")
-                                .font(.title2)  // Increase the font size of the button text
+                                .font(.title2)
                         }
                     }
                 }
@@ -35,7 +35,20 @@ struct AddPlayer: View {
     }
 
     private func addPlayer() {
-        guard let startingBalance = Double(startingBalance) else { return }
+        // Remove any unwanted characters (not digits or "-")
+        let filteredBalance = startingBalance.filter { "0123456789-".contains($0) }
+        
+        // Check if balance contains "-"
+        let containsMinus = filteredBalance.contains("-")
+
+        // Ensure the balance is not empty and only has "-" at the start
+        guard !filteredBalance.isEmpty,
+              !containsMinus || (filteredBalance.filter({ String($0) == "-" }).count <= 1 &&
+                                 filteredBalance.first(where: { String($0) == "-" }) == filteredBalance.first) else {
+            return
+        }
+        
+        guard let startingBalance = Double(filteredBalance) else { return }
 
         let newPlayer = GameViewModel.UserModel(name: name, balance: startingBalance)
         gameViewModel.players.append(newPlayer)
@@ -43,6 +56,7 @@ struct AddPlayer: View {
 
         presentationMode.wrappedValue.dismiss()
     }
+
 }
 
 struct AddPlayer_Previews: PreviewProvider {

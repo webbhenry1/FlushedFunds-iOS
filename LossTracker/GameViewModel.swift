@@ -9,6 +9,8 @@ import Foundation
 
 class GameViewModel: ObservableObject {
     @Published var players: [UserModel] = []
+    @Published var timer = TimerClass()
+
     
     init() {
         if let playersData = UserDefaults.standard.data(forKey: "players"),
@@ -26,6 +28,7 @@ class GameViewModel: ObservableObject {
     func startGame(with buyIns: [String: Double]) {
         print("buyIns: \(buyIns)")  
         for (playerName, buyIn) in buyIns {
+            print("Starting a game for \(playerName) with buyIn: \(buyIn)")
             if let index = players.firstIndex(where: { $0.name == playerName }) {
                 saveGameHistory(player: players[index], buyIn: buyIn, total: 0)
                 players[index].balance -= buyIn
@@ -33,6 +36,7 @@ class GameViewModel: ObservableObject {
             }
         }
         savePlayers()
+        timer.start()
     }
 
 
@@ -49,62 +53,71 @@ class GameViewModel: ObservableObject {
     func endGame() {
         print("Starting endGame function. Initial state of players: \(players)")
         
-        for player in players {
-            if let total = Double(player.total) {
-                if let index = players.firstIndex(where: { $0.name == player.name }) {
-                    saveGameHistory(player: players[index], buyIn: 0, total: total)
+        for index in players.indices {
+            let player = players[index]
+            if !player.isSelected {
+                continue
+            } else {
+                if let total = Double(player.total) {
                     players[index].balance += total
+                    saveGameHistory(player: player, buyIn: 0, total: total)
                 }
             }
         }
-        savePlayers()
         
+        savePlayers()
         print("Ending endGame function. Final state of players: \(players)")
     }
 
 
+
     func saveGameHistory(player: UserModel, buyIn: Double, total: Double) {
         if let index = players.firstIndex(where: { $0.name == player.name }) {
-            if buyIn > 0 { // If it's the start of the game
-                // Append a new Game with the buyIn to the gameHistory
-                players[index].gameHistory.append(Game(buyIn: buyIn, total: 0))
-            } else if total > 0, !players[index].gameHistory.isEmpty { // If it's the end of the game and there is at least one game in the history
-                // Update the total of the current game in the gameHistory
+            if buyIn > 0 {
+                print("Adding a new game record for \(player.name)")
+                players[index].gameHistory.append(Game(buyIn: buyIn, total: 0, finishingValue: 0, date: Date()))
+            } else if total > 0, !players[index].gameHistory.isEmpty {
+                print("Updating game record for \(player.name)")
                 players[index].gameHistory[players[index].gameHistory.count - 1].total = total
+                players[index].gameHistory[players[index].gameHistory.count - 1].finishingValue = player.balance + total
+                players[index].gameHistory[players[index].gameHistory.count - 1].date = Date()
             }
         }
         savePlayers()
     }
+
+
 
 
 
 
     var biggestWinner: UserModel? {
-        return players.max { a, b in
+        let selectedPlayersWithGain = players.filter { $0.isSelected && (Double($0.total) ?? 0) > (Double($0.buyIn) ?? 0) }
+        return selectedPlayersWithGain.max { a, b in
             (Double(a.total) ?? 0.0) - (Double(a.buyIn) ?? 0.0) < (Double(b.total) ?? 0.0) - (Double(b.buyIn) ?? 0.0)
         }
     }
 
     var biggestLoser: UserModel? {
-        return players.min { a, b in
+        let selectedPlayersWithLoss = players.filter { $0.isSelected && (Double($0.total) ?? 0) < (Double($0.buyIn) ?? 0) }
+        return selectedPlayersWithLoss.min { a, b in
             (Double(a.total) ?? 0.0) - (Double(a.buyIn) ?? 0.0) < (Double(b.total) ?? 0.0) - (Double(b.buyIn) ?? 0.0)
         }
     }
 
-
-
     var biggestPercentageGain: UserModel? {
-        return players.max { a, b in
+        let selectedPlayersWithGain = players.filter { $0.isSelected && (Double($0.total) ?? 0) > (Double($0.buyIn) ?? 0) }
+        return selectedPlayersWithGain.max { a, b in
             percentageGain(player: a) < percentageGain(player: b)
         }
     }
 
     var biggestPercentageLoss: UserModel? {
-        return players.min { a, b in
+        let selectedPlayersWithLoss = players.filter { $0.isSelected && (Double($0.total) ?? 0) < (Double($0.buyIn) ?? 0) }
+        return selectedPlayersWithLoss.min { a, b in
             percentageGain(player: a) < percentageGain(player: b)
         }
     }
-
 
 
     private func percentageGain(player: UserModel) -> Double {
@@ -116,19 +129,103 @@ class GameViewModel: ObservableObject {
             return players.sorted { $0.balance > $1.balance }
         }
     
+    var buyInSort: [UserModel] {
+        return players.sorted { $0.buyIn > $1.buyIn }
+    }
+    
     struct Game: Codable, Hashable {
         var buyIn: Double
         var total: Double
+        var finishingValue: Double
+        var date: Date
     }
 
-    struct UserModel: Codable, Hashable {
+
+    struct UserModel: Codable, Hashable, Identifiable {
+        var id = UUID()  
         let name: String
         var balance: Double
         var buyIn: String = ""
-        var total: String = ""
+        var total: String = "0"
         var gameHistory: [Game] = []
-        var isSelected: Bool = false // Add this line
+        var isSelected: Bool = false
+        var isBuyingIn: Bool = false
     }
+
+    
+    func rebuyInForPlayer(with amount: Double) {
+        for index in players.indices where players[index].isBuyingIn {
+            players[index].balance -= amount
+            if let buyIn = Double(players[index].buyIn) {
+                players[index].buyIn = String(buyIn + amount)
+            } else {
+                players[index].buyIn = String(amount)
+            }
+            players[index].isBuyingIn = false
+            if !players[index].isSelected {
+                players[index].isSelected = true
+            }
+        }
+        savePlayers()
+    }
+    
+    func sortPlayersByBuyIn() {
+        players = players.sorted { Double($0.buyIn) ?? 0 > Double($1.buyIn) ?? 0 }
+    }
+    func sortPlayersAlphabetically() {
+        self.players.sort { $0.name < $1.name }
+    }
+    
+    class TimerClass: ObservableObject {
+        @Published public var seconds_passed = 0
+        @Published public var mins_passed = 0
+        @Published public var final_mins = 0
+        @Published public var final_secs = 0
+        @Published public var final_frac = 0
+        @Published public var fractional_second = 0
+        @Published public var total_seconds = 0 
+        var timer = Timer()
+        var isPaused = true
+
+        func start() {
+            seconds_passed = 0
+            fractional_second = 0
+            total_seconds = 0
+            if isPaused {
+                isPaused = false
+                timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
+                    self.total_seconds += 1
+                    if self.fractional_second < 99 {
+                        self.fractional_second += 1
+                    } else {
+                        self.fractional_second = 0
+                        if self.seconds_passed < 59 {
+                            self.seconds_passed += 1
+                        } else {
+                            self.mins_passed += 1
+                            self.seconds_passed = 0
+                        }
+                    }
+                }
+            }
+        }
+
+        
+        func end() {
+            final_mins = self.mins_passed
+            final_secs = self.seconds_passed
+            final_frac = self.fractional_second
+            self.mins_passed = 0
+            self.seconds_passed = 0
+            self.fractional_second = 0
+            timer.invalidate()
+            isPaused = true
+        }
+        
+
+    }
+    
+
 
 
 }

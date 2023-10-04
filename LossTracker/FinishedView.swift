@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FinishedView: View {
     @EnvironmentObject var gameViewModel: GameViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         ZStack {
@@ -14,10 +15,22 @@ struct FinishedView: View {
                     .foregroundColor(.white)
                 
                 CustomListCell(title: "Total Pool", value: "$\(gameViewModel.totalPool)")
-                CustomListCell(title: "Biggest $ Gain", value: gameViewModel.biggestWinner?.name ?? "N/A")
-                CustomListCell(title: "Biggest $ Loss", value: gameViewModel.biggestLoser?.name ?? "N/A")
-                CustomListCell(title: "Biggest % Gain", value: gameViewModel.biggestPercentageGain?.name ?? "N/A")
-                CustomListCell(title: "Biggest % Loss", value: gameViewModel.biggestPercentageLoss?.name ?? "N/A")
+                CustomListCell(title: "Biggest $ Gain", value: gameViewModel.biggestWinner?.name ?? "-")
+                CustomListCell(title: "Biggest $ Loss", value: gameViewModel.biggestLoser?.name ?? "-")
+                CustomListCell(title: "Biggest % Gain", value: gameViewModel.biggestPercentageGain?.name ?? "-")
+                CustomListCell(title: "Biggest % Loss", value: gameViewModel.biggestPercentageLoss?.name ?? "-")
+
+
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Done")
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.top)
                 
                 Spacer()
             }

@@ -10,15 +10,16 @@ import SwiftUI
 struct ContentView: View {
     @State private var selectedTab = 0
     @EnvironmentObject var gameViewModel: GameViewModel
+    @EnvironmentObject var time_manage: GameViewModel.TimerClass
+
 
     var body: some View {
         ZStack{
-            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0) // Set the background color
-                .ignoresSafeArea(.all)
             
             TabView(selection: $selectedTab) {
                 Home()
                     .environmentObject(gameViewModel)
+                    .environmentObject(time_manage)
                     .tag(0)
                 Leaderboard()
                     .environmentObject(gameViewModel)

@@ -3,10 +3,11 @@ import SwiftUI
 struct startGame: View {
     @EnvironmentObject var gameViewModel: GameViewModel
     @Environment(\.presentationMode) var presentationMode
-
+    @Binding var showingGameView: Bool
+    
     var body: some View {
         ZStack {
-            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0) // Set the background color
+            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0) 
                 .ignoresSafeArea(.all)
             
             VStack {
@@ -28,46 +29,66 @@ struct startGame: View {
                     }
                     .padding(.horizontal)
                 }
+                
+                Button(action: {
+                    var buyIns: [String: Double] = [:]
 
-                Button(action: startGame) {
+                    // Collect buy-ins from the players
+                    for player in gameViewModel.players where player.isSelected {
+                        if let buyInAmount = Double(player.buyIn) {
+                            buyIns[player.name] = buyInAmount
+                        }
+                    }
+
+                    if !buyIns.isEmpty {
+                        gameViewModel.startGame(with: buyIns)
+                        gameViewModel.sortPlayersByBuyIn()
+                        showingGameView = true
+                        self.presentationMode.wrappedValue.dismiss()
+                    } else {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }) {
                     Text("Go")
                         .font(.largeTitle)
                         .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
+                        .background(Color(white: 0.9))
+                        .foregroundColor(.black)
                         .cornerRadius(10)
                 }
                 .padding()
 
-                Spacer() // pushes the content upwards
+
+                .padding()
+                
+                Spacer()
             }
-            .padding(.top, 50) // add some space at the top
+            .padding(.top, 50) 
         }
         .onAppear {
             for index in gameViewModel.players.indices {
                 gameViewModel.players[index].buyIn = ""
             }
+            gameViewModel.sortPlayersAlphabetically()
         }
+
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
-
-    private func startGame() {
+    
+    private func startGame() -> Bool {
+        var gameStarted = false
         for index in gameViewModel.players.indices {
-            if let buyIn = Double(gameViewModel.players[index].buyIn) {
+            if let buyIn = Double(gameViewModel.players[index].buyIn), gameViewModel.players[index].isSelected {
                 gameViewModel.players[index].balance -= buyIn
+                gameStarted = true
             }
         }
         gameViewModel.savePlayers()
-        self.presentationMode.wrappedValue.dismiss()
+        return gameStarted
     }
 }
 
 
-struct startGame_Previews: PreviewProvider {
-    static var previews: some View {
-        startGame()
-            .environmentObject(GameViewModel())
-    }
-}
+

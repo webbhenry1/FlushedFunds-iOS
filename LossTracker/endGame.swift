@@ -3,10 +3,13 @@ import SwiftUI
 struct endGame: View {
     @EnvironmentObject var gameViewModel: GameViewModel
     @Environment(\.presentationMode) var presentationMode
+    @Binding var showingGameView: Bool
+    @Binding var showingFinishedView: Bool
+
 
     var body: some View {
         ZStack {
-            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0) // Set the background color
+            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0) 
                 .ignoresSafeArea(.all)
             
             VStack {
@@ -16,9 +19,7 @@ struct endGame: View {
                             .font(.headline)
                             .foregroundColor(.white)
                             .frame(width: 100, alignment: .leading)
-                        
                         Spacer()
-                        
                         TextField("Earnings", text: $gameViewModel.players[index].total)
                             .keyboardType(.decimalPad)
                             .foregroundColor(.white)
@@ -31,7 +32,9 @@ struct endGame: View {
 
                 Button(action: {
                     gameViewModel.endGame()
+                    self.showingFinishedView = true
                     self.presentationMode.wrappedValue.dismiss()
+                    self.showingGameView = false
                 }) {
                     Text("Finish")
                         .font(.largeTitle)
@@ -40,11 +43,10 @@ struct endGame: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-                .padding()
 
-                Spacer() // pushes the content upwards
+                Spacer()
             }
-            .padding(.top, 50) // add some space at the top
+            .padding(.top, 50)
         }
         .onAppear {
             for index in gameViewModel.players.indices where gameViewModel.players[index].isSelected {
@@ -57,9 +59,4 @@ struct endGame: View {
     }
 }
 
-struct endGame_Previews: PreviewProvider {
-    static var previews: some View {
-        endGame()
-            .environmentObject(GameViewModel())
-    }
-}
+
