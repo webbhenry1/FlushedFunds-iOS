@@ -39,7 +39,6 @@ class GameViewModel: ObservableObject {
         timer.start()
     }
 
-
     var totalPool: Double {
         return players.reduce(0) { total, player in
             if let buyIn = Double(player.buyIn) {
@@ -52,7 +51,6 @@ class GameViewModel: ObservableObject {
     
     func endGame() {
         print("Starting endGame function. Initial state of players: \(players)")
-        
         for index in players.indices {
             let player = players[index]
             if !player.isSelected {
@@ -60,15 +58,13 @@ class GameViewModel: ObservableObject {
             } else {
                 if let total = Double(player.total) {
                     players[index].balance += total
-                    saveGameHistory(player: player, buyIn: 0, total: total)
+                    saveGameHistory(player: player, buyIn: Double(player.buyIn) ?? 0, total: total)
                 }
             }
         }
-        
         savePlayers()
         print("Ending endGame function. Final state of players: \(players)")
     }
-
 
 
     func saveGameHistory(player: UserModel, buyIn: Double, total: Double) {
@@ -85,9 +81,6 @@ class GameViewModel: ObservableObject {
         }
         savePlayers()
     }
-
-
-
 
 
 
@@ -119,15 +112,14 @@ class GameViewModel: ObservableObject {
         }
     }
 
-
     private func percentageGain(player: UserModel) -> Double {
         guard let buyIn = Double(player.buyIn), buyIn != 0 else { return 0.0 }
         return ((Double(player.total) ?? 0.0) - buyIn) / buyIn
     }
     
     var sortedPlayers: [UserModel] {
-            return players.sorted { $0.balance > $1.balance }
-        }
+        return players.sorted { $0.balance > $1.balance }
+    }
     
     var buyInSort: [UserModel] {
         return players.sorted { $0.buyIn > $1.buyIn }
@@ -140,7 +132,6 @@ class GameViewModel: ObservableObject {
         var date: Date
     }
 
-
     struct UserModel: Codable, Hashable, Identifiable {
         var id = UUID()  
         let name: String
@@ -151,7 +142,6 @@ class GameViewModel: ObservableObject {
         var isSelected: Bool = false
         var isBuyingIn: Bool = false
     }
-
     
     func rebuyInForPlayer(with amount: Double) {
         for index in players.indices where players[index].isBuyingIn {
@@ -164,10 +154,13 @@ class GameViewModel: ObservableObject {
             players[index].isBuyingIn = false
             if !players[index].isSelected {
                 players[index].isSelected = true
+                // If they're buying back in, add to their game history.
+                saveGameHistory(player: players[index], buyIn: amount, total: 0)
             }
         }
         savePlayers()
     }
+
     
     func sortPlayersByBuyIn() {
         players = players.sorted { Double($0.buyIn) ?? 0 > Double($1.buyIn) ?? 0 }
@@ -224,8 +217,5 @@ class GameViewModel: ObservableObject {
         
 
     }
-    
-
-
 
 }

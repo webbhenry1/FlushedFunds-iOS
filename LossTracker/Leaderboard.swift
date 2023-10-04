@@ -15,8 +15,8 @@ struct Leaderboard: View {
 
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-
+            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0)
+                .ignoresSafeArea(.all)
             VStack{
                 HStack{
                     Spacer()
@@ -26,7 +26,7 @@ struct Leaderboard: View {
                     }) {
                         Image(systemName: "person.badge.plus")
                             .scaleEffect(2)
-                            .foregroundColor(Color(white: 0.9))
+                            .foregroundColor(Color(.white))
                     }
                     .sheet(isPresented: $showingAddPlayer) {
                         AddPlayer().environmentObject(gameViewModel)
