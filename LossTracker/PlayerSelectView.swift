@@ -27,6 +27,7 @@ struct PlayerSelectView: View {
                             Spacer()
                             Image(systemName: player.isSelected ? "checkmark.square" : "square")
                         }
+                        
                     }
                 }
             }

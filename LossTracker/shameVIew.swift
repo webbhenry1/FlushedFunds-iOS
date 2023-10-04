@@ -57,8 +57,8 @@ struct ShameView: View {
                 Text("Confirm")
                     .font(.largeTitle)
                     .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
+                    .background(Color(white: 0.9))
+                    .foregroundColor(.black)
                     .cornerRadius(10)
             }
         

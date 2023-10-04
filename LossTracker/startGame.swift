@@ -7,8 +7,8 @@ struct startGame: View {
     
     var body: some View {
         ZStack {
-            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0) 
-                .ignoresSafeArea(.all)
+            Color.black.edgesIgnoringSafeArea(.all)
+
             
             VStack {
                 ForEach(gameViewModel.players.indices.filter { gameViewModel.players[$0].isSelected }, id: \.self) { index in

@@ -15,7 +15,8 @@ struct ContentView: View {
 
     var body: some View {
         ZStack{
-            
+            Color.black.edgesIgnoringSafeArea(.all)
+
             TabView(selection: $selectedTab) {
                 Home()
                     .environmentObject(gameViewModel)
