@@ -11,7 +11,7 @@ struct Home: View {
 
     var body: some View {
         VStack {
-            Image("White_Logo")
+            Image("largeLogo")
                 .resizable() // Make it resizable
                 .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                 .scaleEffect(0.6) // Scale the image to half its original size

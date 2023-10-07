@@ -6,11 +6,15 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseAuth
 
 class GameViewModel: ObservableObject {
     @Published var players: [UserModel] = []
     @Published var timer = TimerClass()
-
+    
+    let user = Auth.auth().currentUser
+    let db = Firestore.firestore()
     
     init() {
         if let playersData = UserDefaults.standard.data(forKey: "players"),
@@ -19,6 +23,24 @@ class GameViewModel: ObservableObject {
         }
     }
     
+    struct UserModel: Codable, Hashable, Identifiable {
+        var id = UUID()
+        let name: String
+        var balance: Double
+        var buyIn: String = ""
+        var total: String = "0"
+        var gameHistory: [Game] = []
+        var isSelected: Bool = false
+        var isBuyingIn: Bool = false
+    }
+    
+    struct Game: Codable, Hashable {
+        var buyIn: Double
+        var total: Double
+        var finishingValue: Double
+        var date: Date
+    }
+
     func savePlayers() {
         if let encodedPlayers = try? JSONEncoder().encode(players) {
             UserDefaults.standard.set(encodedPlayers, forKey: "players")
@@ -66,23 +88,43 @@ class GameViewModel: ObservableObject {
         print("Ending endGame function. Final state of players: \(players)")
     }
 
-
     func saveGameHistory(player: UserModel, buyIn: Double, total: Double) {
         if let index = players.firstIndex(where: { $0.name == player.name }) {
-            if buyIn > 0 {
-                print("Adding a new game record for \(player.name)")
-                players[index].gameHistory.append(Game(buyIn: buyIn, total: 0, finishingValue: 0, date: Date()))
-            } else if total > 0, !players[index].gameHistory.isEmpty {
-                print("Updating game record for \(player.name)")
-                players[index].gameHistory[players[index].gameHistory.count - 1].total = total
-                players[index].gameHistory[players[index].gameHistory.count - 1].finishingValue = player.balance + total
-                players[index].gameHistory[players[index].gameHistory.count - 1].date = Date()
-            }
+            let game = Game(buyIn: buyIn, total: total, finishingValue: player.balance + total, date: Date())
+            players[index].gameHistory.append(game)
+            print("Game record saved for \(player.name) with buyIn: \(buyIn), total: \(total), on: \(game.date)")
         }
         savePlayers()
     }
 
 
+    func updateGameHistory(game: Game) {
+            guard let user = Auth.auth().currentUser else {
+                print("No user logged in.")
+                return
+            }
+            
+            let docRef = db.collection("users").document(user.uid)
+            // Convert Game object to a dictionary for Firestore
+            let gameData: [String: Any] = [
+                "buyIn": game.buyIn,
+                "total": game.total,
+                "finishingValue": game.finishingValue,
+                "date": game.date
+            ]
+            
+            docRef.updateData([
+                "gameHistory": FieldValue.arrayUnion([gameData])
+            ]) { error in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        print("Error updating gameHistory: \(error)")
+                    } else {
+                        print("Successfully updated gameHistory.")
+                    }
+                }
+            }
+        }
 
     var biggestWinner: UserModel? {
         let selectedPlayersWithGain = players.filter { $0.isSelected && (Double($0.total) ?? 0) > (Double($0.buyIn) ?? 0) }
@@ -125,23 +167,7 @@ class GameViewModel: ObservableObject {
         return players.sorted { $0.buyIn > $1.buyIn }
     }
     
-    struct Game: Codable, Hashable {
-        var buyIn: Double
-        var total: Double
-        var finishingValue: Double
-        var date: Date
-    }
-
-    struct UserModel: Codable, Hashable, Identifiable {
-        var id = UUID()  
-        let name: String
-        var balance: Double
-        var buyIn: String = ""
-        var total: String = "0"
-        var gameHistory: [Game] = []
-        var isSelected: Bool = false
-        var isBuyingIn: Bool = false
-    }
+    
     
     func rebuyInForPlayer(with amount: Double) {
         for index in players.indices where players[index].isBuyingIn {

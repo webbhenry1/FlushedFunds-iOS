@@ -6,25 +6,38 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import Firebase
+import FirebaseAuth
+
+//class AppDelegate: NSObject, UIApplicationDelegate {
+//  func application(_ application: UIApplication,
+//                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//    FirebaseApp.configure()
+//
+//    return true
+//  }
+//}
 
 @main
 struct LossTrackerApp: App {
+    @ObservedObject private var firebaseInit = FirebaseInitializer()
+    @EnvironmentObject var time_manage: GameViewModel.TimerClass
     let persistenceController = PersistenceController.shared
     let gameViewModel = GameViewModel()
     
-    
-
-    @EnvironmentObject var time_manage: GameViewModel.TimerClass
-
-
-
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(gameViewModel)
+            StartupView()
                 .environmentObject(GameViewModel.TimerClass())
-
         }
     }
+    
+    class FirebaseInitializer: ObservableObject {
+        init() {
+            FirebaseApp.configure()
+        }
+    }
+
+
 }

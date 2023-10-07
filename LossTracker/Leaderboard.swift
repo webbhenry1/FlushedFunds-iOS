@@ -46,12 +46,12 @@ struct Leaderboard: View {
                                     Text(player.name)
                                         .font(.title)
                                         .foregroundColor(.black)
-                                        .shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
+                                        .shadow(color: .black, radius: 0.3, x: 0.3, y: 0.3)
                                     Spacer()
                                     Text("$\(player.balance, specifier: "%.2f")")
                                         .font(.title)
                                         .foregroundColor(.black)
-                                        .shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
+                                        
                                 }
                                 .padding(.horizontal)
                                 .padding(.vertical, 10)
