@@ -13,20 +13,19 @@ struct StartupView: View {
     let persistenceController = PersistenceController.shared
     let gameViewModel = GameViewModel()
     
-    @State private var isLoading = false
+    @State private var isLoading = true
     @State private var isLoggedIn = false
-    @State private var isRegistering = true
+    @State private var isRegistering = false
 
     var body: some View {
         Group {
             if isLoading {
                 LoadingView(isLoadingCompleted: $isLoading)
-                    .id(UUID())
             } else if isRegistering {
                 RegisterView(isRegistering: $isRegistering)
             } else if !isLoggedIn {
                 LoginView(isLoading: $isLoading, isLoggedIn: $isLoggedIn, isRegistering: $isRegistering)
-            } else if !isLoading && isLoggedIn {
+            } else {
                 ContentView()
                     .environmentObject(gameViewModel)
                     .environmentObject(time_manage)

@@ -30,7 +30,9 @@ struct LossTrackerApp: App {
         WindowGroup {
             StartupView()
                 .environmentObject(GameViewModel.TimerClass())
+                .environmentObject(gameViewModel)
         }
+
     }
     
     class FirebaseInitializer: ObservableObject {

@@ -37,7 +37,7 @@ struct LoadingView: View {
             withAnimation(.linear(duration: 1.3)) {
                 progress = 1.0
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
-                    isLoadingCompleted = true
+                    isLoadingCompleted = false
                 }
             }
         }
@@ -51,7 +51,6 @@ struct BarView: View {
     var wid: Double
     var hei: Double
     var col: Color
-    //view (two stacked rounded rectangles)
     var body: some View {
         ZStack {
             HStack{
