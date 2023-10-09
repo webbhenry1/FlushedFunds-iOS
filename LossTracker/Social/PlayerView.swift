@@ -33,9 +33,9 @@ struct PlayerView: View {
                                 .frame(width: geometry.size.width, height: screenHeight()/4)
 
                             // Actual graph
-                            LineGraph(dataPoints: player.gameHistory.suffix(5).map { $0.finishingValue })
+                            LineGraph(dataPoints: player.gameHistory.suffix(5).map { $0.finishingBalance })
                                 .stroke(lineWidth: 2)
-                                .foregroundColor(player.gameHistory.last?.finishingValue ?? 0 >= 0 ? Color.green : Color.red)
+                                .foregroundColor(player.gameHistory.last?.finishingBalance ?? 0 >= 0 ? Color.green : Color.red)
                                 .frame(width: geometry.size.width * 0.9, height: screenHeight()/4 * 0.8)
                                 .position(x: geometry.size.width / 2, y: screenHeight()/8)
 

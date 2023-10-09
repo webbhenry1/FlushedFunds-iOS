@@ -6,18 +6,26 @@ struct Home: View {
     @State private var showingGameView = false
     @State private var showingShameView = false
     @State private var showingFinishedView = false
+    @State private var showingProfileView = false
     @EnvironmentObject var gameViewModel: GameViewModel
     @EnvironmentObject var time_manage: GameViewModel.TimerClass
 
     var body: some View {
         VStack {
-            Image("largeLogo")
-                .resizable() // Make it resizable
-                .aspectRatio(contentMode: .fit) // Maintain aspect ratio
-                .scaleEffect(0.6) // Scale the image to half its original size
-                .offset(y: -150)
+            HStack{
+                Spacer()
+                Button(action: {
+                    showingProfileView.toggle()
+                }) {
+                    Image(systemName: "person.circle")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                }
+                .sheet(isPresented: $showingProfileView) {
+                    profileView()
+                }
+            }
             Spacer()
-                .frame(height: screenHeight()/10)
             Button(action: {
                 showingPlayerSelection = true
             }) {
@@ -60,6 +68,7 @@ struct Home: View {
                FinishedView().environmentObject(gameViewModel)
            }
         }
+        
     }
 }
 

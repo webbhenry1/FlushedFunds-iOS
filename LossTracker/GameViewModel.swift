@@ -12,6 +12,7 @@ import FirebaseAuth
 class GameViewModel: ObservableObject {
     @Published var players: [UserModel] = []
     @Published var timer = TimerClass()
+    @Published var games: [Game] = []
     
     let user = Auth.auth().currentUser
     let db = Firestore.firestore()
@@ -37,8 +38,15 @@ class GameViewModel: ObservableObject {
     struct Game: Codable, Hashable {
         var buyIn: Double
         var total: Double
-        var finishingValue: Double
+        var finishingBalance: Double
         var date: Date
+        var totalPool: Double
+        var playersUIDs: [String]
+    }
+
+    struct Player: Codable, Hashable {
+        var uid: String
+        var username: String
     }
 
     func savePlayers() {
@@ -90,12 +98,23 @@ class GameViewModel: ObservableObject {
 
     func saveGameHistory(player: UserModel, buyIn: Double, total: Double) {
         if let index = players.firstIndex(where: { $0.name == player.name }) {
-            let game = Game(buyIn: buyIn, total: total, finishingValue: player.balance + total, date: Date())
+            
+            let game = Game(buyIn: buyIn,
+                            total: total,
+                            finishingBalance: player.balance + total,
+                            date: Date(),
+                            totalPool: players.reduce(0) { $0 + (Double($1.buyIn) ?? 0) }, // Calculate the total pool based on the buy-in of all players.
+                            playersUIDs: players.map { $0.id.uuidString }) // Extracting the UUIDs of all players and converting them to strings.
+            
             players[index].gameHistory.append(game)
+            
             print("Game record saved for \(player.name) with buyIn: \(buyIn), total: \(total), on: \(game.date)")
+            
+            savePlayers() // Your method to save the updated players list.
         }
-        savePlayers()
     }
+
+
 
 
     func updateGameHistory(game: Game) {
@@ -109,7 +128,7 @@ class GameViewModel: ObservableObject {
             let gameData: [String: Any] = [
                 "buyIn": game.buyIn,
                 "total": game.total,
-                "finishingValue": game.finishingValue,
+                "finishingBalance": game.finishingBalance,
                 "date": game.date
             ]
             
@@ -245,3 +264,4 @@ class GameViewModel: ObservableObject {
     }
 
 }
+

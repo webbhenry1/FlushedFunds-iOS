@@ -50,6 +50,9 @@
 		BAACE2612AD099700074E179 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAACE2602AD099700074E179 /* LoginView.swift */; };
 		BAACE2632AD0A8C20074E179 /* StartupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAACE2622AD0A8C20074E179 /* StartupView.swift */; };
 		BAACE2652AD0A93B0074E179 /* registerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAACE2642AD0A93B0074E179 /* registerView.swift */; };
+		BAB14ADC2AD3A0A700DBB8B2 /* profileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB14ADB2AD3A0A700DBB8B2 /* profileView.swift */; };
+		BAB14AE12AD45DE200DBB8B2 /* GameHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB14AE02AD45DE200DBB8B2 /* GameHistoryView.swift */; };
+		BAB14AE32AD45DFF00DBB8B2 /* GameDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB14AE22AD45DFF00DBB8B2 /* GameDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -112,6 +115,9 @@
 		BAACE2602AD099700074E179 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BAACE2622AD0A8C20074E179 /* StartupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupView.swift; sourceTree = "<group>"; };
 		BAACE2642AD0A93B0074E179 /* registerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerView.swift; sourceTree = "<group>"; };
+		BAB14ADB2AD3A0A700DBB8B2 /* profileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileView.swift; sourceTree = "<group>"; };
+		BAB14AE02AD45DE200DBB8B2 /* GameHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryView.swift; sourceTree = "<group>"; };
+		BAB14AE22AD45DFF00DBB8B2 /* GameDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,19 +187,12 @@
 			isa = PBXGroup;
 			children = (
 				BA6FFA852A5305E3003E4FCE /* LossTrackerApp.swift */,
-				BAACE25D2AD086660074E179 /* Login */,
-				BA6FFAB62A5308C7003E4FCE /* Home.swift */,
 				BA6FFA872A5305E3003E4FCE /* ContentView.swift */,
-				BA6FFAB82A530936003E4FCE /* Leaderboard.swift */,
-				BA6FFABA2A53235B003E4FCE /* AddPlayer.swift */,
-				BA6FFABC2A535A56003E4FCE /* startGame.swift */,
 				BA6FFABE2A535D96003E4FCE /* GameViewModel.swift */,
-				BA6FFAC32A536537003E4FCE /* endGame.swift */,
-				BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */,
-				BA6FFAC62A5655F2003E4FCE /* FinishedView.swift */,
-				BA127FE12A5CE4E1001D3A6E /* gameView.swift */,
-				BA127FE32A5CE61C001D3A6E /* shameVIew.swift */,
-				BA2C51842ACCEE3500D4F45E /* PlayerView.swift */,
+				BAACE25D2AD086660074E179 /* Login */,
+				BAB14ADE2AD45C6C00DBB8B2 /* Home */,
+				BAB14ADF2AD45D7F00DBB8B2 /* Profile */,
+				BAB14ADD2AD45C1F00DBB8B2 /* Social */,
 				BA6FFA892A5305E4003E4FCE /* Assets.xcassets */,
 				BA6FFA8E2A5305E4003E4FCE /* Persistence.swift */,
 				BAA397F32AD1EB580005EDDF /* GoogleService-Info.plist */,
@@ -237,6 +236,40 @@
 				BAACE2642AD0A93B0074E179 /* registerView.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		BAB14ADD2AD45C1F00DBB8B2 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				BA6FFAB82A530936003E4FCE /* Leaderboard.swift */,
+				BA6FFABA2A53235B003E4FCE /* AddPlayer.swift */,
+				BA2C51842ACCEE3500D4F45E /* PlayerView.swift */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
+		BAB14ADE2AD45C6C00DBB8B2 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				BA6FFAB62A5308C7003E4FCE /* Home.swift */,
+				BA127FDF2A5A5A6A001D3A6E /* PlayerSelectView.swift */,
+				BA6FFABC2A535A56003E4FCE /* startGame.swift */,
+				BA127FE12A5CE4E1001D3A6E /* gameView.swift */,
+				BA127FE32A5CE61C001D3A6E /* shameVIew.swift */,
+				BA6FFAC32A536537003E4FCE /* endGame.swift */,
+				BA6FFAC62A5655F2003E4FCE /* FinishedView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		BAB14ADF2AD45D7F00DBB8B2 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				BAB14ADB2AD3A0A700DBB8B2 /* profileView.swift */,
+				BAB14AE02AD45DE200DBB8B2 /* GameHistoryView.swift */,
+				BAB14AE22AD45DFF00DBB8B2 /* GameDetailView.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,12 +436,15 @@
 				BAACE2652AD0A93B0074E179 /* registerView.swift in Sources */,
 				BA6FFABB2A53235B003E4FCE /* AddPlayer.swift in Sources */,
 				BA6FFABD2A535A56003E4FCE /* startGame.swift in Sources */,
+				BAB14AE32AD45DFF00DBB8B2 /* GameDetailView.swift in Sources */,
 				BA6FFAB92A530936003E4FCE /* Leaderboard.swift in Sources */,
 				BA6FFAC42A536537003E4FCE /* endGame.swift in Sources */,
 				BAACE2632AD0A8C20074E179 /* StartupView.swift in Sources */,
+				BAB14ADC2AD3A0A700DBB8B2 /* profileView.swift in Sources */,
 				BAACE2612AD099700074E179 /* LoginView.swift in Sources */,
 				BA6FFA922A5305E4003E4FCE /* LossTracker.xcdatamodeld in Sources */,
 				BA127FE42A5CE61C001D3A6E /* shameVIew.swift in Sources */,
+				BAB14AE12AD45DE200DBB8B2 /* GameHistoryView.swift in Sources */,
 				BA6FFA882A5305E3003E4FCE /* ContentView.swift in Sources */,
 				BA6FFA862A5305E3003E4FCE /* LossTrackerApp.swift in Sources */,
 				BA6FFAB72A5308C7003E4FCE /* Home.swift in Sources */,

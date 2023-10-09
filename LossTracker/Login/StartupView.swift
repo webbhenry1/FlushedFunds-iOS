@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import Firebase
 
 struct StartupView: View {
     @EnvironmentObject var time_manage: GameViewModel.TimerClass
@@ -37,11 +39,16 @@ struct StartupView: View {
     }
 
     func checkForExistingSession() {
-        // Implement the logic to check Firebase for an existing session.
-        // For example, you can check if `Auth.auth().currentUser` is not nil.
-        // If a session exists, set `isLoggedIn` to `true` and `isLoading` to `false`.
-        // Otherwise, just set `isLoading` to `false` to show the Login view.
+        if Auth.auth().currentUser != nil {
+            // User is logged in, so update the relevant state property
+            self.isLoggedIn = true
+            self.isLoading = false
+        } else {
+            // No user is logged in
+            self.isLoading = false
+        }
     }
+
 }
 
 
