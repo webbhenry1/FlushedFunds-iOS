@@ -4,7 +4,7 @@
 //
 //  Created by Henry Webb on 10/9/23.
 //
-
+import Foundation
 import SwiftUI
 
 struct GameHistoryView: View {
@@ -31,18 +31,20 @@ struct GameHistoryView: View {
                     .font(.largeTitle)
                     .padding(.top)
                 
+                let allGames = viewModel.players.flatMap { $0.gameHistory }
+
                 ScrollView {
-                    ForEach(viewModel.games.sorted(by: { $0.date > $1.date }), id: \.self) { game in
+                    ForEach(allGames.sorted(by: { $0.date > $1.date }), id: \.self) { game in
                         NavigationLink(destination: GameDetailView(game: game)) {
                             VStack(alignment: .leading) {
                                 Text("Game from \(game.date)")
                                     .font(.headline)
                                     .foregroundColor(.white)
                                 
-                                Text("Winnings: \(game.finishingBalance, specifier: "%.2f")")
+                                Text("Winnings: \(game.finishingBalance , specifier: "%.2f")")
                                     .foregroundColor(.white)
                                 
-                                Text("Balance: \(game.total, specifier: "%.2f")") // Adjusted to format Double
+                                Text("Balance: \(game.total , specifier: "%.2f")")
                                     .foregroundColor(.white)
                             }
                             .padding()
@@ -53,14 +55,15 @@ struct GameHistoryView: View {
                         .buttonStyle(PlainButtonStyle()) // Remove default button coloring
                     }
                 }
+
                 .padding(.top)
             }
             .padding()
         }
-        .navigationBarHidden(true)
     }
 }
 
-#Preview {
-    GameHistoryView()
-}
+//#Preview {
+//    GameHistoryView()
+//
+//}

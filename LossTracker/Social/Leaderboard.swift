@@ -27,14 +27,16 @@ struct Leaderboard: View {
                         Image(systemName: "person.badge.plus")
                             .scaleEffect(2)
                             .foregroundColor(Color(.white))
+                            .offset(y: screenHeight()/60)
                     }
                     .sheet(isPresented: $showingAddPlayer) {
                         AddPlayer().environmentObject(gameViewModel)
                     }
                 }
                 .padding(.horizontal)
-                .padding(.bottom)
                 
+                Spacer()
+                    .frame(height: screenHeight()/25)
                 
                 ScrollView {
                     VStack(alignment: .leading) {

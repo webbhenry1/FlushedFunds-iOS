@@ -19,18 +19,23 @@ struct Home: View {
                 }) {
                     Image(systemName: "person.circle")
                         .resizable()
-                        .frame(width: 30, height: 30)
+                        .foregroundColor(.white)
+                        .frame(width: screenWidth()/10, height: screenWidth()/10)
+                        .offset(y: -screenHeight()/9)
                 }
                 .sheet(isPresented: $showingProfileView) {
                     profileView()
                 }
             }
+            .padding()
             Spacer()
+                .frame(height: screenHeight()/2)
             Button(action: {
                 showingPlayerSelection = true
             }) {
                 Text("New Game")
-                    .font(.largeTitle)
+                    .shadow(color: .black, radius: 0.5, x: 1, y: 1)
+                    .font(.system(size: screenWidth()/10))
                     .padding(20)
                     .background(Color(white: 0.9))
                     .foregroundColor(.black)
@@ -42,7 +47,6 @@ struct Home: View {
                     .environmentObject(gameViewModel)
                     .environmentObject(time_manage)
             }
-            .padding()
             
             .sheet(isPresented: $showingGameStart, onDismiss: {
                 if !gameViewModel.players.filter({ $0.isSelected }).isEmpty {
@@ -59,11 +63,11 @@ struct Home: View {
                     .environmentObject(gameViewModel)
                     .environmentObject(time_manage)
             }
-           .onChange(of: showingGameView) { newValue in
-               if !newValue {
-                   showingFinishedView = true
-               }
-           }
+            .onChange(of: showingGameView) { newValue in
+                if !newValue {
+                    showingFinishedView = true
+                }
+            }
            .sheet(isPresented: $showingFinishedView) {
                FinishedView().environmentObject(gameViewModel)
            }

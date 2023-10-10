@@ -15,75 +15,81 @@ struct profileView: View {
     @State private var isImagePickerPresented: Bool = false
 
     var body: some View {
-        ZStack {
-            Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0)
-                .ignoresSafeArea()
-            
-            VStack {
-                ZStack {
-                    Image("pokerBackground")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 150)
-
-                    Button(action: {
-                        isImagePickerPresented.toggle()
-                    }) {
-                        if let image = profileImage {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 120, height: 120)
-                                .clipShape(Circle())
-                        } else {
-                            Image("defaultProfilePicture")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 120, height: 120)
-                                .clipShape(Circle())
-                        }
-                    }
-                }
-
-                HStack {
-                    Text("First Name")
-                    Text("Last Name")
-                }
-                .font(.title2)
-                .padding()
-
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white)
-                    .frame(width: 300, height: 100)
-                    .overlay(
-                        VStack {
-                            Text("Lifetime Stats")
-                                .bold()
-                            HStack {
-                                Text("Total Winnings: $0")
-                                Spacer()
-                                Text("Total Games Played: 0")
+        NavigationView{
+            ZStack {
+                Color(red: 8 / 255.0, green: 89 / 255.0, blue: 72 / 255.0)
+                    .ignoresSafeArea()
+                
+                VStack {
+                    ZStack {
+                        Image("pokerBackground")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150)
+                        
+                        Button(action: {
+                            isImagePickerPresented.toggle()
+                        }) {
+                            if let image = profileImage {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 120, height: 120)
+                                    .clipShape(Circle())
+                            } else {
+                                Image("defaultProfilePicture")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 120, height: 120)
+                                    .clipShape(Circle())
                             }
                         }
-                        .padding()
-                    )
+                    }
+                    
+                    HStack {
+                        Text("First Name")
+                        Text("Last Name")
+                    }
+                    .font(.title2)
                     .padding()
-
-                NavigationLink(destination: GameHistoryView()) {
-                    Text("View Game History")
-                        .bold()
-                        .frame(maxWidth: .infinity)
+                    
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white)
+                        .frame(width: screenWidth()/1.4, height: 100)
+                        .overlay(
+                            VStack {
+                                Text("Lifetime Stats")
+                                    .bold()
+                                
+                                HStack {
+                                    Text("Total Winnings: $0")
+                                    
+                                }
+                                HStack {
+                                    Text("Total Games Played: 0")
+                                }
+                            }
+                                .padding()
+                                .foregroundColor(.black)
+                        )
                         .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    
+                    NavigationLink(destination: GameHistoryView()) {
+                        Text("View Game History")
+                            .navigationBarHidden(true)
+                            .bold()
+                            .padding()
+                            .background(Color.black)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.top, 20)
                 }
-                .padding(.top, 20)
+                .padding()
+                .sheet(isPresented: $isImagePickerPresented, content: {
+                    ImagePicker(image: $profileImage)
+                })
             }
-            .padding()
-            .sheet(isPresented: $isImagePickerPresented, content: {
-                ImagePicker(image: $profileImage)
-            })
         }
     }
 }
