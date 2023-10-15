@@ -21,12 +21,12 @@ struct Home: View {
                         .resizable()
                         .foregroundColor(.white)
                         .frame(width: screenWidth()/10, height: screenWidth()/10)
-                        .offset(y: -screenHeight()/9)
                 }
                 .sheet(isPresented: $showingProfileView) {
                     profileView()
                 }
             }
+            .offset(y: -screenHeight()/9)
             .padding()
             Spacer()
                 .frame(height: screenHeight()/2)

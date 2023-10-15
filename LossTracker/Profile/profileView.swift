@@ -25,7 +25,7 @@ struct profileView: View {
                         Image("pokerBackground")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 150, height: 150)
+                            .frame(width: screenWidth()/1.5, height: screenWidth()/1.5)
                         
                         Button(action: {
                             isImagePickerPresented.toggle()
@@ -34,54 +34,65 @@ struct profileView: View {
                                 Image(uiImage: image)
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 120, height: 120)
+                                    .frame(width: screenWidth()/2.5, height: screenWidth()/2.5)
                                     .clipShape(Circle())
                             } else {
-                                Image("defaultProfilePicture")
+                                Image("defaultProfile")
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 120, height: 120)
+                                    .frame(width: screenWidth()/2.5, height: screenWidth()/2.5)
                                     .clipShape(Circle())
                             }
                         }
                     }
                     
+                    Spacer()
+                        .frame(height:screenHeight()/10)
+                    
                     HStack {
                         Text("First Name")
                         Text("Last Name")
                     }
-                    .font(.title2)
+                    .font(.system(size: screenWidth()/15))
                     .padding()
                     
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.white)
-                        .frame(width: screenWidth()/1.4, height: 100)
+                        .frame(width: screenWidth()/1.4, height: screenHeight()/7)
                         .overlay(
                             VStack {
                                 Text("Lifetime Stats")
+                                    .font(.system(size: screenWidth()/18))
                                     .bold()
                                 
                                 HStack {
                                     Text("Total Winnings: $0")
-                                    
+                                        .font(.system(size: screenWidth()/18))
+
                                 }
                                 HStack {
                                     Text("Total Games Played: 0")
+                                        .font(.system(size: screenWidth()/18))
+
                                 }
                             }
                                 .padding()
                                 .foregroundColor(.black)
                         )
                         .padding()
+                    Spacer()
+                        .frame(height:screenHeight()/10)
                     
                     NavigationLink(destination: GameHistoryView()) {
                         Text("View Game History")
                             .navigationBarHidden(true)
                             .bold()
-                            .padding()
+                            .padding(screenWidth()/15)
                             .background(Color.black)
                             .foregroundColor(.white)
-                            .cornerRadius(10)
+                            .cornerRadius(screenWidth()/15)
+                            .font(.system(size: screenWidth()/18))
+
                     }
                     .padding(.top, 20)
                 }
