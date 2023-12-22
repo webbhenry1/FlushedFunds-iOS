@@ -60,6 +60,7 @@ struct GameHistoryView: View {
             }
             .padding()
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

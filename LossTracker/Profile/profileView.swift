@@ -8,11 +8,16 @@
 import SwiftUI
 import PhotosUI
 import FirebaseStorage
+import FirebaseAuth
+import Firebase
 
 
 struct profileView: View {
     @State private var profileImage: UIImage?
     @State private var isImagePickerPresented: Bool = false
+    @EnvironmentObject var gameViewModel: GameViewModel // Add this line
+    
+
 
     var body: some View {
         NavigationView{
@@ -34,24 +39,23 @@ struct profileView: View {
                                 Image(uiImage: image)
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: screenWidth()/2.5, height: screenWidth()/2.5)
+                                    .frame(width: screenWidth()/2.3, height: screenWidth()/2.3)
                                     .clipShape(Circle())
                             } else {
                                 Image("defaultProfile")
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: screenWidth()/2.5, height: screenWidth()/2.5)
+                                    .frame(width: screenWidth()/2.3, height: screenWidth()/2.3)
                                     .clipShape(Circle())
                             }
                         }
                     }
                     
                     Spacer()
-                        .frame(height:screenHeight()/10)
+                        .frame(height:screenHeight()/15)
                     
                     HStack {
-                        Text("First Name")
-                        Text("Last Name")
+                        Text(gameViewModel.me?.name ?? "Unknown")
                     }
                     .font(.system(size: screenWidth()/15))
                     .padding()
@@ -84,18 +88,35 @@ struct profileView: View {
                         .frame(height:screenHeight()/10)
                     
                     NavigationLink(destination: GameHistoryView()) {
-                        Text("View Game History")
-                            .navigationBarHidden(true)
-                            .bold()
-                            .padding(screenWidth()/15)
-                            .background(Color.black)
-                            .foregroundColor(.white)
-                            .cornerRadius(screenWidth()/15)
-                            .font(.system(size: screenWidth()/18))
-
-                    }
-                    .padding(.top, 20)
-                }
+                       Text("View Game History")
+                           .navigationBarHidden(true)
+                           .bold()
+                           .padding()
+                           .frame(maxWidth: .infinity)
+                           .background(Color.black)
+                           .foregroundColor(.white)
+                           .cornerRadius(10)
+                           .font(.headline)
+                   }
+                   .padding(.vertical)
+                   
+                   // Add a Sign Out button
+                    Button(action: {
+                        gameViewModel.signOut()
+                    }) {
+                        HStack {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                            Text("Sign Out")
+                        }
+                        .bold()
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .font(.headline)
+                   }
+               }
                 .padding()
                 .sheet(isPresented: $isImagePickerPresented, content: {
                     ImagePicker(image: $profileImage)
@@ -104,6 +125,7 @@ struct profileView: View {
         }
     }
 }
+
 
 struct ImagePicker: UIViewControllerRepresentable {
     

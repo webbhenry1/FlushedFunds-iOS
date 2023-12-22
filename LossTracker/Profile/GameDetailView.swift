@@ -76,6 +76,7 @@ struct GameDetailView: View {
             Spacer()
         }
         .padding()
+        .navigationBarBackButtonHidden(true)
     }
     
     func fetchPlayers() {

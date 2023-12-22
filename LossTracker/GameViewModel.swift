@@ -9,11 +9,18 @@ import Foundation
 import Firebase
 import FirebaseAuth
 
+
+
+
 class GameViewModel: ObservableObject {
     @Published var players: [UserModel] = []
     @Published var timer = TimerClass()
     @Published var games: [Game] = []
-    
+    @Published var me: UserModel?
+    @Published var showLoginView = false
+
+
+        
     let user = Auth.auth().currentUser
     let db = Firestore.firestore()
     
@@ -22,17 +29,25 @@ class GameViewModel: ObservableObject {
            let decodedPlayers = try? JSONDecoder().decode([UserModel].self, from: playersData) {
             players = decodedPlayers
         }
+//        fetchCurrentUser()
     }
     
     struct UserModel: Codable, Hashable, Identifiable {
         var id = UUID()
         let name: String
         var balance: Double
+        var balanceHistory: [BalanceRecord] = []
         var buyIn: String = ""
         var total: String = "0"
         var gameHistory: [Game] = []
         var isSelected: Bool = false
         var isBuyingIn: Bool = false
+    }
+    
+    struct BalanceRecord: Codable, Hashable, Identifiable {
+        let id: String
+        let date: Date
+        let amount: Double
     }
     
     struct Game: Codable, Hashable {
@@ -47,6 +62,55 @@ class GameViewModel: ObservableObject {
     struct Player: Codable, Hashable {
         var uid: String
         var username: String
+    }
+    
+    func fetchCurrentUser() {
+        if let user = Auth.auth().currentUser {
+            let docRef = db.collection("users").document(user.uid)
+            docRef.getDocument { [weak self] (document, error) in
+                DispatchQueue.main.async {
+                    if let document = document, document.exists {
+                        do {
+                            let data = document.data()
+                            let balance = data?["balance"] as? Double ?? 0
+                            let balanceHistoryData = data?["balanceHistory"] as? [[String: Any]] ?? []
+                            let balanceHistory = try balanceHistoryData.map { try JSONSerialization.data(withJSONObject: $0) }.map { try JSONDecoder().decode(BalanceRecord.self, from: $0) }
+                            let firstName = data?["firstName"] as? String ?? ""
+                            let lastName = data?["lastName"] as? String ?? ""
+                            let fullName = "\(firstName) \(lastName)"
+                            
+                            // Assuming gameHistory is stored in a similar nested array of dictionaries as balanceHistory
+                            let gameHistoryData = data?["gameHistory"] as? [[String: Any]] ?? []
+                            let gameHistory = try gameHistoryData.map { try JSONSerialization.data(withJSONObject: $0) }.map { try JSONDecoder().decode(Game.self, from: $0) }
+
+                            // Construct the UserModel for "Me"
+                            self?.me = UserModel(name: fullName, balance: balance, balanceHistory: balanceHistory, gameHistory: gameHistory)
+
+                            // If you want to include 'me' in the players array for leaderboard
+                            if let me = self?.me {
+                                self?.players.append(me)
+                            }
+                        } catch let error {
+                            print("Error in decoding user data: \(error)")
+                        }
+                    } else {
+                        print("User document does not exist")
+                    }
+                }
+            }
+        } else {
+            print("No user is logged in")
+        }
+    }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            // Set the flag to show the login view
+            showLoginView = true
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
 
     func savePlayers() {
@@ -92,10 +156,41 @@ class GameViewModel: ObservableObject {
                 }
             }
         }
+        if let meIndex = players.firstIndex(where: { $0.id == me?.id }) {
+            let mePlayer = players[meIndex]
+            let newBalanceRecord = BalanceRecord(
+                id: UUID().uuidString,
+                date: Date(),
+                amount: mePlayer.balance
+            )
+            me?.balanceHistory.append(newBalanceRecord) // Update "Me" user's balance history
+            players[meIndex] = mePlayer
+        }
         savePlayers()
+        uploadBalanceHistoryToServer()
+        
         print("Ending endGame function. Final state of players: \(players)")
     }
 
+    func uploadBalanceHistoryToServer() {
+        guard let me = me, let user = Auth.auth().currentUser else { return }
+        let docRef = db.collection("users").document(user.uid)
+        let balanceHistoryData = me.balanceHistory.map { record in
+            [
+                "id": record.id,
+                "date": record.date,
+                "amount": record.amount
+            ]
+        }
+        docRef.updateData([
+            "balanceHistory": balanceHistoryData
+        ]) { error in
+            if let error = error {
+                print("Error updating balanceHistory: \(error)")
+            }
+        }
+    }
+    
     func saveGameHistory(player: UserModel, buyIn: Double, total: Double) {
         if let index = players.firstIndex(where: { $0.name == player.name }) {
             

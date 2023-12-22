@@ -53,7 +53,6 @@ struct Leaderboard: View {
                                     Text("$\(player.balance, specifier: "%.2f")")
                                         .font(.title)
                                         .foregroundColor(.black)
-                                        
                                 }
                                 .padding(.horizontal)
                                 .padding(.vertical, 10)

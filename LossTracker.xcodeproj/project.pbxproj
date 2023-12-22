@@ -53,6 +53,7 @@
 		BAB14ADC2AD3A0A700DBB8B2 /* profileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB14ADB2AD3A0A700DBB8B2 /* profileView.swift */; };
 		BAB14AE12AD45DE200DBB8B2 /* GameHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB14AE02AD45DE200DBB8B2 /* GameHistoryView.swift */; };
 		BAB14AE32AD45DFF00DBB8B2 /* GameDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB14AE22AD45DFF00DBB8B2 /* GameDetailView.swift */; };
+		BACD7EE72B325C5C00485810 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD7EE62B325C5C00485810 /* ChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -118,6 +119,7 @@
 		BAB14ADB2AD3A0A700DBB8B2 /* profileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileView.swift; sourceTree = "<group>"; };
 		BAB14AE02AD45DE200DBB8B2 /* GameHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryView.swift; sourceTree = "<group>"; };
 		BAB14AE22AD45DFF00DBB8B2 /* GameDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailView.swift; sourceTree = "<group>"; };
+		BACD7EE62B325C5C00485810 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +260,7 @@
 				BA127FE32A5CE61C001D3A6E /* shameVIew.swift */,
 				BA6FFAC32A536537003E4FCE /* endGame.swift */,
 				BA6FFAC62A5655F2003E4FCE /* FinishedView.swift */,
+				BACD7EE62B325C5C00485810 /* ChartView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				BA2C51852ACCEE3500D4F45E /* PlayerView.swift in Sources */,
 				BA6FFAC72A5655F2003E4FCE /* FinishedView.swift in Sources */,
 				BAACE25F2AD088560074E179 /* LoadingView.swift in Sources */,
+				BACD7EE72B325C5C00485810 /* ChartView.swift in Sources */,
 				BAACE2652AD0A93B0074E179 /* registerView.swift in Sources */,
 				BA6FFABB2A53235B003E4FCE /* AddPlayer.swift in Sources */,
 				BA6FFABD2A535A56003E4FCE /* startGame.swift in Sources */,

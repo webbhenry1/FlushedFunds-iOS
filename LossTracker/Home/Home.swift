@@ -26,10 +26,17 @@ struct Home: View {
                     profileView()
                 }
             }
-            .offset(y: -screenHeight()/9)
+            .offset(y: -screenHeight()/20)
             .padding()
+            
+            Image("Flushed")
+                .resizable()
+                .foregroundColor(.white)
+                .frame(width: screenWidth()/1.5, height: screenHeight()/10)
+            
             Spacer()
                 .frame(height: screenHeight()/2)
+            
             Button(action: {
                 showingPlayerSelection = true
             }) {
